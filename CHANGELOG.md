@@ -52,3 +52,7 @@ All notable changes to the Capstone Item Manager are documented in this file.
 
 `requirements.md` · `architecture.md` · `design-review.md` (APPROVED) ·
 `impl-plan.md` · `verification-report.md`
+
+### Pull Request
+
+[PR #1 — Add item tagging and tag-based filtering](https://github.com/KaladiSanthoshKumarReddy/capstone_copilot/pull/1)
