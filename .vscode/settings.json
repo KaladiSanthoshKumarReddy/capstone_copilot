@@ -1,5 +1,6 @@
 {
     "airun.settings": {
         "workspaceId": "2eee27c3-3ced-4da5-85ef-3b1981fac03a"
-    }
+    },
+    "chat.agent.thinking.terminalTools": true
 }

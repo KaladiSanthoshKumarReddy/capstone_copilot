@@ -103,6 +103,19 @@ export default function ItemCard({ item, onDelete, onUpdate }: Props) {
         {item.description && (
           <p className="text-xs text-gray-400 mt-0.5 truncate">{item.description}</p>
         )}
+        {item.tags && (
+          <div className="flex flex-wrap gap-1 mt-1">
+            {item.tags.split(',').filter(Boolean).map(t => (
+              <span
+                key={t}
+                className="text-xs px-2 py-0.5 rounded-full bg-purple-100 text-purple-700"
+                data-testid={`item-tag-${item.id}-${t}`}
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+        )}
         <p className="text-xs text-gray-300 mt-1">
           {item.updated_at
             ? `Updated ${new Date(item.updated_at).toLocaleDateString()}`

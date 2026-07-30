@@ -5,7 +5,7 @@ description: >
   Runs all 8 stages (requirements → architecture → design review → impl plan →
   implementation → review → verify → PR/report) with MANDATORY human-in-the-loop
   approval at each stage gate. Invoke as @sdlc, @sdlc from=<stage>, or @sdlc resume.
-tools: [read, edit, search, agent, todo]
+tools: [vscode, execute, read, agent, GitHub.vscode-pull-request-github, ms-azuretools.vscode-containers, ms-python.python, edit, search, web, 'playwright/*', browser, 'pylance-mcp-server/*', 'playwright/*', todo]
 user-invocable: true
 argument-hint: "Run full pipeline, or: from=<stage> | resume | status"
 ---

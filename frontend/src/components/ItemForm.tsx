@@ -1,12 +1,13 @@
 import { useState } from 'react'
 
 interface Props {
-  onAdd: (title: string, description: string) => Promise<void>
+  onAdd: (title: string, description: string, tags: string) => Promise<void>
 }
 
 export default function ItemForm({ onAdd }: Props) {
   const [title, setTitle]       = useState('')
   const [desc, setDesc]         = useState('')
+  const [tags, setTags]         = useState('')
   const [loading, setLoading]   = useState(false)
   const [error, setError]       = useState('')
 
@@ -16,9 +17,10 @@ export default function ItemForm({ onAdd }: Props) {
     setLoading(true)
     setError('')
     try {
-      await onAdd(title.trim(), desc.trim())
+      await onAdd(title.trim(), desc.trim(), tags.trim())
       setTitle('')
       setDesc('')
+      setTags('')
     } catch {
       setError('Failed to add item.')
     } finally {
@@ -47,6 +49,14 @@ export default function ItemForm({ onAdd }: Props) {
           onChange={e => setDesc(e.target.value)}
           className="flex-1 border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
           data-testid="item-desc-input"
+        />
+        <input
+          type="text"
+          placeholder="Tags (comma-separated, optional)"
+          value={tags}
+          onChange={e => setTags(e.target.value)}
+          className="flex-1 border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+          data-testid="item-tags-input"
         />
         <button
           type="submit"
