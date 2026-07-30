@@ -6,6 +6,7 @@ export interface Item {
   user_id: number | null
   created_at: string
   updated_at: string | null
+  tags: string | null
 }
 
 export interface PaginationMeta {

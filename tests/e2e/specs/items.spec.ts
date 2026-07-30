@@ -101,6 +101,28 @@ test.describe('Item Management', () => {
     await expect(page.getByText(nextTitle)).toBeVisible()
     await expect(page.getByText(title)).not.toBeVisible()
   })
+
+  test('should add an item with comma-separated tags and render tag pills', async ({ page }) => {
+    const titleInput = page.getByTestId('item-title-input')
+    const tagsInput   = page.getByTestId('item-tags-input')
+    const addBtn      = page.getByTestId('add-item-button')
+    const title = `Tagged item ${Date.now()}`
+
+    await titleInput.fill(title)
+    await tagsInput.fill('work, urgent')
+    await addBtn.click()
+
+    await expect(tagsInput).toHaveValue('')
+    await expect(page.getByText(title)).toBeVisible()
+
+    const titleEl = page.locator('[data-testid^="item-title-"]').filter({ hasText: title }).first()
+    const titleTestId = await titleEl.getAttribute('data-testid')
+    const id = titleTestId?.replace('item-title-', '')
+    expect(id).toBeTruthy()
+
+    await expect(page.locator(`[data-testid="item-tag-${id}-work"]`)).toBeVisible()
+    await expect(page.locator(`[data-testid="item-tag-${id}-urgent"]`)).toBeVisible()
+  })
 })
 
 test.describe('Search and Filter', () => {
@@ -134,6 +156,89 @@ test.describe('Search and Filter', () => {
     // page param should be absent or 1
     const pageParam = url.searchParams.get('page')
     expect(pageParam === null || pageParam === '1').toBe(true)
+  })
+
+  test('should filter items by tag and clear the filter', async ({ page }) => {
+    const titleInput = page.getByTestId('item-title-input')
+    const tagsInput   = page.getByTestId('item-tags-input')
+    const addBtn      = page.getByTestId('add-item-button')
+    const title = `Tag filter item ${Date.now()}`
+
+    await titleInput.fill(title)
+    await tagsInput.fill('worktag')
+    await addBtn.click()
+    await expect(page.getByText(title)).toBeVisible()
+
+    const tagFilter = page.getByTestId('tag-filter')
+    await tagFilter.selectOption('worktag')
+    await expect(page).toHaveURL(/tag=worktag/)
+    await expect(page.getByText(title)).toBeVisible()
+
+    await tagFilter.selectOption('')
+    await expect(page).not.toHaveURL(/tag=worktag/)
+  })
+})
+
+test.describe('Tag Validation and Composition', () => {
+  test.beforeEach(async ({ page }) => {
+    await ensureUser(page)
+    const login = new LoginPage(page)
+    await login.goto()
+    await login.login(USER.email, USER.password)
+    await page.waitForURL('**/dashboard')
+  })
+
+  test('should reject an item with more than 10 tags', async ({ page }) => {
+    const titleInput = page.getByTestId('item-title-input')
+    const tagsInput   = page.getByTestId('item-tags-input')
+    const addBtn      = page.getByTestId('add-item-button')
+    const title = `Too many tags ${Date.now()}`
+    const elevenTags = Array.from({ length: 11 }, (_, i) => `tag${i}`).join(',')
+
+    await titleInput.fill(title)
+    await tagsInput.fill(elevenTags)
+    await addBtn.click()
+
+    await expect(page.getByTestId('form-error')).toBeVisible()
+    await expect(page.getByText(title)).not.toBeVisible()
+  })
+
+  test('should exact-match tags (not substring) and compose tag filter with status filter', async ({ page }) => {
+    const titleInput = page.getByTestId('item-title-input')
+    const tagsInput   = page.getByTestId('item-tags-input')
+    const addBtn      = page.getByTestId('add-item-button')
+    const workTitle = `Work Task ${Date.now()}`
+    const homeworkTitle = `Homework Task ${Date.now()}`
+
+    await titleInput.fill(workTitle)
+    await tagsInput.fill('work')
+    await addBtn.click()
+    await expect(page.getByText(workTitle)).toBeVisible()
+
+    await titleInput.fill(homeworkTitle)
+    await tagsInput.fill('homework')
+    await addBtn.click()
+    await expect(page.getByText(homeworkTitle)).toBeVisible()
+
+    // Exact-match: filtering by "work" must not also match "homework"
+    const tagFilter = page.getByTestId('tag-filter')
+    await tagFilter.selectOption('work')
+    expect(new URL(page.url()).searchParams.get('tag')).toBe('work')
+    await expect(page.getByText(workTitle)).toBeVisible()
+    await expect(page.getByText(homeworkTitle)).not.toBeVisible()
+
+    // Mark the "work"-tagged item completed, then compose tag + status filters
+    const titleEl = page.locator('[data-testid^="item-title-"]').filter({ hasText: workTitle }).first()
+    const titleTestId = await titleEl.getAttribute('data-testid')
+    const id = titleTestId?.replace('item-title-', '')
+    await page.locator(`[data-testid="item-toggle-${id}"]`).click()
+    await expect(page.locator(`[data-testid="item-status-${id}"]`)).toHaveText('completed')
+
+    const statusFilter = page.getByTestId('status-filter')
+    await statusFilter.selectOption('completed')
+    await expect(page).toHaveURL(/tag=work/)
+    await expect(page).toHaveURL(/status=completed/)
+    await expect(page.getByText(workTitle)).toBeVisible()
   })
 })
 

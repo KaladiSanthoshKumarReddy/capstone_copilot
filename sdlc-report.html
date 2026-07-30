@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Capstone Item Manager — SDLC Report</title>
+  <style>
+    :root {
+      --bg: #0d1117; --bg-card: #161b22; --bg-hover: #1c2330; --border: #30363d;
+      --accent: #58a6ff; --accent2: #3fb950; --accent3: #d29922; --accent4: #f85149;
+      --text: #e6edf3; --muted: #8b949e; --tag-bg: #1f3a5f; --tag-border: #388bfd;
+      --pill-pass: #1a3a26; --pill-fail: #3a1a1a; --pill-warn: #3a2a1a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; line-height: 1.6; }
+    header { background: linear-gradient(135deg, #0d1117 0%, #161b22 60%, #1c2330 100%); border-bottom: 1px solid var(--border); padding: 2rem 2.5rem 1.5rem; }
+    header h1 { font-size: 1.8rem; font-weight: 700; color: var(--accent); margin-bottom: 0.25rem; }
+    header p.subtitle { color: var(--muted); font-size: 0.95rem; }
+    header .meta { display: flex; gap: 1.5rem; margin-top: 0.75rem; flex-wrap: wrap; }
+    header .meta span { font-size: 0.8rem; color: var(--muted); }
+    header .meta span strong { color: var(--text); }
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem 2.5rem; }
+    .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+    .tile { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1rem; text-align: center; }
+    .tile:hover { background: var(--bg-hover); }
+    .tile .num { font-size: 2rem; font-weight: 700; }
+    .tile .num.green { color: var(--accent2); } .tile .num.blue { color: var(--accent); } .tile .num.yellow { color: var(--accent3); } .tile .num.red { color: var(--accent4); }
+    .tile .label { font-size: 0.78rem; color: var(--muted); margin-top: 0.25rem; }
+    h2 { font-size: 1.15rem; font-weight: 600; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); margin: 2rem 0 1rem; }
+    h2 .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 0.5rem; }
+    .dot.green { background: var(--accent2); } .dot.blue { background: var(--accent); } .dot.yellow { background: var(--accent3); } .dot.purple { background: #a371f7; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-bottom: 1rem; }
+    th { background: var(--bg-card); color: var(--muted); font-weight: 600; text-align: left; padding: 0.6rem 0.8rem; border-bottom: 2px solid var(--border); }
+    td { padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:hover td { background: var(--bg-hover); }
+    .badge { display: inline-block; padding: 0.18rem 0.55rem; border-radius: 20px; font-size: 0.74rem; font-weight: 600; white-space: nowrap; }
+    .badge.completed, .badge.approved, .badge.pass { background: var(--pill-pass); color: var(--accent2); border: 1px solid #2ea043; }
+    .badge.warn { background: var(--pill-warn); color: var(--accent3); border: 1px solid #9e6a03; }
+    .badge.fixed { background: #1a2a3a; color: #79c0ff; border: 1px solid #388bfd; }
+    .badge.critical { background: var(--pill-fail); color: var(--accent4); border: 1px solid #f85149; }
+    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+    .chip { display: inline-block; background: var(--tag-bg); border: 1px solid var(--tag-border); color: var(--accent); border-radius: 4px; padding: 0.1rem 0.4rem; font-size: 0.73rem; margin: 0.1rem; }
+    .code-block, pre { background: #010409; border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 0.82rem; color: #c9d1d9; overflow-x: auto; margin-bottom: 1rem; white-space: pre-wrap; }
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
+    .card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; } .card p { font-size: 0.87rem; color: var(--muted); }
+    .finding { display: flex; gap: 0.75rem; align-items: baseline; padding: 0.4rem 0; border-bottom: 1px solid var(--border); }
+    .finding:last-child { border-bottom: none; }
+    .finding .id { font-size: 0.78rem; color: var(--muted); min-width: 5.5rem; } .finding .desc { font-size: 0.87rem; flex: 1; }
+    footer { border-top: 1px solid var(--border); padding: 1.5rem 2.5rem; color: var(--muted); font-size: 0.8rem; text-align: center; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Capstone Item Manager — SDLC Report</h1>
+  <p class="subtitle">End-to-End Agentic Development Lifecycle — Add Item Tagging and Tag-Based Filtering</p>
+  <div class="meta">
+    <span><strong>Stack:</strong> React + Vite + TS + Tailwind · Express + TS · SQLite · Playwright</span>
+    <span><strong>Generated:</strong> 2026-07-30</span>
+    <span><strong>Agent:</strong> GitHub Copilot (Claude Sonnet)</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="tiles">
+    <div class="tile"><div class="num green">8</div><div class="label">SDLC Stages<br/>Completed</div></div>
+    <div class="tile"><div class="num blue">14</div><div class="label">Functional<br/>Requirements</div></div>
+    <div class="tile"><div class="num blue">17</div><div class="label">Acceptance<br/>Criteria</div></div>
+    <div class="tile"><div class="num green">42</div><div class="label">Tests<br/>Passing</div></div>
+    <div class="tile"><div class="num blue">17</div><div class="label">Impl-Plan<br/>Tasks</div></div>
+    <div class="tile"><div class="num blue">4</div><div class="label">Architecture<br/>Decisions</div></div>
+    <div class="tile"><div class="num green">0</div><div class="label">Critical Issues<br/>Fixed</div></div>
+  </div>
+
+  <h2><span class="dot green"></span>SDLC Lifecycle Stages</h2>
+  <table>
+    <thead><tr><th>#</th><th>Stage</th><th>Status</th><th>Key Artifacts</th><th>Gate Decision</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Requirements Analysis</td><td><span class="badge completed">Completed</span></td><td>requirements.md · 14 FRs · 17 ACs</td><td><span class="badge approved">Approved</span></td></tr>
+      <tr><td>2</td><td>Architecture Design</td><td><span class="badge completed">Completed</span></td><td>architecture.md · 4 ADRs</td><td><span class="badge approved">Approved</span></td></tr>
+      <tr><td>3</td><td>Design Review</td><td><span class="badge approved">APPROVED</span></td><td>design-review.md</td><td><span class="badge approved">Approved</span></td></tr>
+      <tr><td>4</td><td>Implementation Planning</td><td><span class="badge completed">Completed</span></td><td>impl-plan.md · 17 tasks</td><td><span class="badge approved">Approved</span></td></tr>
+      <tr><td>5</td><td>Implementation</td><td><span class="badge completed">Completed</span></td><td>backend/src/**, frontend/src/**</td><td><span class="badge approved">Approved</span></td></tr>
+      <tr><td>6</td><td>Code Review</td><td><span class="badge completed">Completed</span></td><td>0 Critical · 1 Major · 2 Minor · 1 fixed</td><td><span class="badge approved">Approved</span></td></tr>
+      <tr><td>7</td><td>Verification & Testing</td><td><span class="badge pass">42/42 Passing</span></td><td>tests/e2e/specs/items.spec.ts · verification-report.md · 20.9s + 2.39s</td><td><span class="badge approved">Approved</span></td></tr>
+      <tr><td>8</td><td>PR & Report Generation</td><td><span class="badge warn">Report generated · PR not opened</span></td><td>CHANGELOG.md · sdlc-report.html · No PR tool available in session</td><td><span class="badge warn">Pending manual PR</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2><span class="dot green"></span>Test Execution Results — 42 / 42 Passing</h2>
+  <div class="card">
+    <h3>Playwright + Vitest (real, user-executed)</h3>
+    <p><span class="chip">Playwright</span><span class="chip">TypeScript</span><span class="chip">Vitest</span></p>
+    <p style="margin-top:0.6rem;">
+      <strong>Base URL:</strong> http://localhost:3000<br/>
+      <strong>Total Duration:</strong> 20.9s (Playwright) + 2.39s (Vitest)<br/>
+      <strong>Test Files:</strong> tests/e2e/specs/items.spec.ts, frontend/src/api/__tests__/items.test.ts, frontend/src/components/__tests__/TagFilter.test.tsx
+    </p>
+  </div>
+  <div class="code-block"><span>Playwright: 16 passed (20.9s)
+  - includes: should add an item with comma-separated tags and render tag pills
+  - includes: should filter items by tag and clear the filter
+  - includes: should reject an item with more than 10 tags
+  - includes: should exact-match tags (not substring) and compose tag filter with status filter
+
+Vitest: 26 passed (2.39s)
+  Test Files  3 passed (3)
+       Tests  26 passed (26)
+
+Combined: 42/42 passed, 0 failed</span></div>
+
+  <h2><span class="dot yellow"></span>Code Review Findings</h2>
+  <div class="card">
+    <h3>Quality Assessment</h3>
+    <p>
+      <strong>Critical:</strong> 0 (0 fixed)<br/>
+      <strong>Major:</strong> 1<br/>
+      <strong>Minor:</strong> 2
+    </p>
+    <div style="margin-top:1rem;">
+      <div class="finding"><span class="id"><span class="badge fixed">Major — Fixed</span></span><span class="desc">GET /api/items?tag= built a LIKE pattern from unescaped user input; a tag containing % or _ would act as a SQL wildcard, breaking the exact-match guarantee (AC-07/ADR-003). Fixed by escaping % and _ with an ESCAPE clause.</span></div>
+      <div class="finding"><span class="id"><span class="badge warn">Minor</span></span><span class="desc">req.query.tag assumes a scalar; a repeated ?tag=a&tag=b query would throw. Pre-existing pattern shared with search/status, out of scope for this feature's diff.</span></div>
+      <div class="finding"><span class="id"><span class="badge warn">Minor</span></span><span class="desc">No global Express error-handling middleware exists in backend/src/index.ts. Pre-existing architectural gap, unrelated to tagging.</span></div>
+    </div>
+  </div>
+
+  <h2><span class="dot blue"></span>System Architecture</h2>
+  <div class="card"><h3>High-Level Design</h3><p>Extends the existing items domain rather than introducing a new resource: a nullable <code>tags TEXT</code> column added via an additive SQLite migration; <code>zod</code>-validated and server-normalized (trim/lowercase/dedupe) tags on <code>POST</code>/<code>PATCH /api/items</code>; an exact-match tag filter on <code>GET /api/items</code> via a comma-wrapped, wildcard-escaped <code>LIKE</code> clause folded into the existing <code>whereClauses</code>/<code>args</code> pattern; and frontend additions (<code>Item.tags</code> type, API client fields, a new <code>TagFilter.tsx</code> mirroring <code>StatusFilter.tsx</code>, tag pills in <code>ItemCard</code>, and full wiring in <code>Dashboard.tsx</code>). No new services, tables, or external dependencies were introduced.</p></div>
+
+  <h2><span class="dot purple"></span>Architecture Decision Records</h2>
+  <div class="card">
+    <div class="finding"><span class="id">ADR-001</span><span class="desc">Single comma-separated <code>TEXT</code> column on <code>items</code> instead of a normalized <code>tags</code>/<code>item_tags</code> join table, per the requirements' no-new-tables constraint.</span></div>
+    <div class="finding"><span class="id">ADR-002</span><span class="desc">Tag count/length validation runs before case-insensitive deduplication, so a submission of 11 raw tags is rejected even if it would dedupe to ≤10 — a conservative, security-favoring interpretation of AC-04.</span></div>
+    <div class="finding"><span class="id">ADR-003</span><span class="desc">Exact-match tag filtering via a comma-wrapped <code>LIKE</code> pattern (<code>',' || tags || ',' LIKE '%,tag,%'</code>) instead of a raw substring <code>LIKE</code>, to satisfy AC-07 without a join table or FTS.</span></div>
+    <div class="finding"><span class="id">ADR-004</span><span class="desc"><code>TagFilter</code> options are derived client-side from the currently-loaded page of items rather than adding a new "list distinct tags" endpoint, per the requirements' explicit scope constraint.</span></div>
+  </div>
+
+  <h2><span class="dot yellow"></span>Verification Gaps (tracked as follow-up test debt)</h2>
+  <div class="card">
+    <p>9/17 ACs fully covered by executed, passing tests · 1/17 partially covered · 7/17 have no dedicated automated test yet (tag editing/AC-03, per-tag length/AC-05, mixed-case-only/AC-08, tag+search composition/AC-10, cross-user isolation/AC-11 &amp; AC-16, legacy-row backward compatibility/AC-17). None of these represent a known defect — see <a href="verification-report.md">verification-report.md</a> for the full traceability matrix.</p>
+  </div>
+
+  <h2><span class="dot green"></span>PR Status</h2>
+  <div class="card">
+    <h3>Opened — PR #1</h3>
+    <p>Branch <code>feature/item-tagging</code> (commit <code>d8a8503</code>) pushed to <code>origin</code> and opened as <a href="https://github.com/KaladiSanthoshKumarReddy/capstone_copilot/pull/1">Pull Request #1</a> against <code>KaladiSanthoshKumarReddy/capstone_copilot</code> (base <code>main</code>).</p>
+  </div>
+
+  <h2><span class="dot green"></span>Key Artifacts</h2>
+  <div class="card">
+    <p>
+      <a href="requirements.md">requirements.md</a> ·
+      <a href="architecture.md">architecture.md</a> ·
+      <a href="design-review.md">design-review.md</a> ·
+      <a href="impl-plan.md">impl-plan.md</a> ·
+      <a href="verification-report.md">verification-report.md</a> ·
+      <a href="CHANGELOG.md">CHANGELOG.md</a>
+    </p>
+  </div>
+
+</div>
+
+<footer>Generated by the Capstone Item Manager Agentic SDLC pipeline — 2026-07-30</footer>
+</body>
+</html>

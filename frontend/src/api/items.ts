@@ -6,6 +6,7 @@ export interface FetchParams {
   limit?: number
   search?: string
   status?: string
+  tag?: string
 }
 
 export async function fetchItems(params: FetchParams = {}): Promise<ItemsResponse> {
@@ -13,12 +14,12 @@ export async function fetchItems(params: FetchParams = {}): Promise<ItemsRespons
   return res.data
 }
 
-export async function createItem(title: string, description?: string): Promise<{ id: number }> {
-  const res = await client.post<{ success: boolean; data: { id: number } }>('/items', { title, description })
+export async function createItem(title: string, description?: string, tags?: string): Promise<{ id: number }> {
+  const res = await client.post<{ success: boolean; data: { id: number } }>('/items', { title, description, tags })
   return res.data.data
 }
 
-export async function updateItem(id: number, patch: Partial<Pick<Item, 'title' | 'description' | 'status'>>): Promise<Item> {
+export async function updateItem(id: number, patch: Partial<Pick<Item, 'title' | 'description' | 'status' | 'tags'>>): Promise<Item> {
   const res = await client.patch<{ success: boolean; data: Item }>(`/items/${id}`, patch)
   return res.data.data
 }

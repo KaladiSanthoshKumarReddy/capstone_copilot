@@ -42,5 +42,12 @@ export async function initDb() {
     console.log('Migration: added updated_at column to items')
   }
 
+  // Migration: add tags if it was missing from the original schema
+  const hasTags = cols.rows.some((r: unknown) => (r as { name: string }).name === 'tags')
+  if (!hasTags) {
+    await db.execute("ALTER TABLE items ADD COLUMN tags TEXT")
+    console.log('Migration: added tags column to items')
+  }
+
   console.log('Database initialized')
 }

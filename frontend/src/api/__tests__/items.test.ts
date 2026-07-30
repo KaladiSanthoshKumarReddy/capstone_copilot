@@ -30,6 +30,7 @@ describe('createItem', () => {
     expect(client.post).toHaveBeenCalledWith('/items', {
       title: 'Test title',
       description: 'Test description',
+      tags: undefined,
     })
     expect(result).toEqual({ id: 42 })
   })
@@ -44,6 +45,21 @@ describe('createItem', () => {
     expect(client.post).toHaveBeenCalledWith('/items', {
       title: 'Title only',
       description: undefined,
+      tags: undefined,
+    })
+  })
+
+  it('posts with tags when provided', async () => {
+    vi.mocked(client.post).mockResolvedValueOnce({
+      data: { success: true, data: { id: 2 } },
+    })
+
+    await createItem('Tagged item', 'desc', 'work,urgent')
+
+    expect(client.post).toHaveBeenCalledWith('/items', {
+      title: 'Tagged item',
+      description: 'desc',
+      tags: 'work,urgent',
     })
   })
 
@@ -90,6 +106,22 @@ describe('updateItem', () => {
 
     expect(client.patch).toHaveBeenCalledWith('/items/3', { title: 'New Title' })
     expect(result.title).toBe('New Title')
+  })
+
+  it('patches /items/:id with a tags patch', async () => {
+    const mockItem = {
+      id: 4, title: 'Tagged', status: 'active' as const,
+      description: null, user_id: 1, tags: 'work,urgent',
+      created_at: '2024-01-01', updated_at: '2024-01-02',
+    }
+    vi.mocked(client.patch).mockResolvedValueOnce({
+      data: { success: true, data: mockItem },
+    })
+
+    const result = await updateItem(4, { tags: 'work,urgent' })
+
+    expect(client.patch).toHaveBeenCalledWith('/items/4', { tags: 'work,urgent' })
+    expect(result.tags).toBe('work,urgent')
   })
 
   it('patches /items/:id with an archived status', async () => {
