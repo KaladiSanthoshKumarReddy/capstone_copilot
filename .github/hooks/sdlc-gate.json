@@ -1,0 +1,37 @@
+{
+  "description": "SDLC gate enforcement hooks for Capstone Item Manager — inject gate context on session start and log stage transitions.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "type": "command",
+        "command": "echo '{\"systemMessage\": \"Capstone SDLC Pipeline active. Gate approval is REQUIRED before each stage transition. Never skip gates.\"}'",
+        "windows": "powershell -NoProfile -Command \"$artifacts = @('requirements.md','architecture.md','design-review.md','impl-plan.md','verification-report.md','CHANGELOG.md') | Where-Object { Test-Path $_ }; $msg = if ($artifacts) { $artifacts -join ', ' } else { 'none' }; Write-Output ('{\\\"systemMessage\\\": \\\"Capstone SDLC Pipeline active. Existing artifacts: ' + $msg + '. Gate approval REQUIRED before each stage transition. Never skip gates.\\\"}')\"",
+        "timeout": 10
+      }
+    ],
+    "PreToolUse": [
+      {
+        "type": "command",
+        "command": "echo '{\"continue\": true}'",
+        "windows": "powershell -NoProfile -Command \"Write-Output '{\\\"continue\\\": true}'\"",
+        "timeout": 5
+      }
+    ],
+    "SubagentStart": [
+      {
+        "type": "command",
+        "command": "echo '{\"systemMessage\": \"Subagent starting for Capstone SDLC. Remember: output a gate message after stage completes and STOP — do not auto-proceed.\"}'",
+        "windows": "powershell -NoProfile -Command \"Write-Output '{\\\"systemMessage\\\": \\\"Subagent starting for Capstone SDLC. Remember: output a gate message after stage completes and STOP — do not auto-proceed.\\\"}'\"",
+        "timeout": 5
+      }
+    ],
+    "SubagentStop": [
+      {
+        "type": "command",
+        "command": "echo '{\"systemMessage\": \"Subagent complete. Present the gate message to the user and await explicit approval before proceeding to next stage.\"}'",
+        "windows": "powershell -NoProfile -Command \"Write-Output '{\\\"systemMessage\\\": \\\"Subagent complete. Present the gate message to the user and await explicit approval before proceeding to next stage.\\\"}'\"",
+        "timeout": 5
+      }
+    ]
+  }
+}
