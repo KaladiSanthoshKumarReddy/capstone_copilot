@@ -1,29 +1,49 @@
 ---
-description: Stage 4 operating instructions — Implementation Planning.
+description: Stage 4 operating instructions - Implementation Planning.
 applyTo: "impl-plan.md"
 ---
 
-# Stage 4 — Implementation Planning
+# Stage 4 - Implementation Planning Instructions
 
-## Input
+## Goal
 
-`design-review.md` with `Verdict: APPROVED` (required), `architecture.md`.
+Produce a complete, dependency-aware implementation plan that can be executed
+without guesswork.
+
+## Inputs
+
+- `design-review.md` with APPROVED verdict
+- `architecture.md`
+- `requirements.md`
 
 ## Output
 
-`impl-plan.md` at workspace root.
+- `impl-plan.md`
 
-## Required Sections
+## Required Task Table Columns
 
-Task table with columns: `ID | Description | File Target(s) | Depends On | Success Criterion`.
+- ID
+- Description
+- File Target(s)
+- Depends On
+- Success Criterion
+- FR/AC Links
 
-## Minimums
+## Planning Rules
 
-≥15 tasks, ordered: DB/schema → backend routes/middleware → frontend
-api/store/components/pages → unit tests → E2E tests → docs.
+- Minimum 15 tasks
+- Order tasks by dependency and risk
+- Include backend, frontend, and testing tasks
+- Keep task scopes small and verifiable
+- Ensure every major architecture element is covered
 
-## Do / Don't
+## Quality Gate Requirements
 
-- ✅ Every architecture element from Stage 2 must map to ≥1 task.
-- ✅ Include explicit test tasks (Vitest unit + Playwright E2E) as separate tasks.
-- ❌ Don't start Stage 4 if Stage 3 verdict is REJECTED.
+- Task ordering is coherent and executable
+- Success criteria are objective
+- Test tasks are explicit and sufficient
+
+## Failure Conditions
+
+Fail gate if plan is underspecified, missing dependencies, or missing coverage
+for key architecture elements.

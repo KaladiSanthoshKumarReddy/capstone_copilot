@@ -1,31 +1,42 @@
 # Agentic SDLC Instructions
 
-This folder defines project-level and stage-level instructions for the Capstone
-Item Manager Agentic SDLC pipeline.
+This directory is the operating handbook for the Item Manager AI SDLC pipeline.
+It defines mandatory behavior for orchestrator and stage agents, including gates,
+evidence standards, quality bars, and rework routing.
 
-## What Is Here
+## Directory Contents
 
-- `sdlc-global.instructions.md`: Global rules shared by all SDLC stages.
-- `gate-validation-checklist.md`: Objective gate criteria for pass/fail decisions.
-- `stage1-requirements.instructions.md` to `stage8-pr.instructions.md`: Stage-scoped
-  operating instructions.
-- `prompts/`: Reusable prompt templates for running stages, gate checks, resume flow,
-  and reject/rework flow.
+- `sdlc-global.instructions.md`: global constraints and stage-agnostic policies
+- `gate-validation-checklist.md`: objective gate criteria for each stage
+- `stage1-*.instructions.md` through `stage8-*.instructions.md`: stage-scoped
+  execution contracts
+- `prompts/`: reusable prompt assets for run, resume, gate review, and rework loops
 
-## Usage Model
+## Usage Pattern
 
-1. Run the SDLC orchestrator (`@sdlc`) and stage agents (`@sdlc-stageN-*`).
-2. Apply `sdlc-global.instructions.md` for all stages.
-3. Apply the matching stage instruction file for the current stage.
-4. Use `gate-validation-checklist.md` before any gate approval.
-5. Use templates under `prompts/` for repeatable prompts.
+1. Load global rules first.
+2. Load only the instruction file relevant to the current stage.
+3. Execute stage work strictly within stage scope.
+4. Evaluate output against gate checklist.
+5. Stop and request explicit human approval before transition.
 
-## Gate Rule
+## Governance Rules
 
-No stage transition is allowed without explicit pass status against the checklist
-criteria for that stage.
+- Stage order is sequential by default.
+- A failed gate blocks downstream stages.
+- Rework must be stage-targeted and evidence-backed.
+- Claimed outcomes must be verifiable from artifacts and command outputs.
 
-## Where This Fits In The Repo
+## Evidence Expectations
 
-See [docs/AI_SDLC_OVERVIEW.md](../../docs/AI_SDLC_OVERVIEW.md) for the full mapping
-of agents/skills to your Jira, Confluence, and GitHub URLs/tokens from `.env`.
+Every stage decision must include evidence in one or more of these forms:
+
+- Artifact sections/checklists
+- Traceability tables
+- Diagnostic/test outputs
+- Risk and mitigation statements
+
+## Integration Reference
+
+See `docs/AI_SDLC_OVERVIEW.md` for project stack, variable wiring, and how
+agents, skills, and instructions map to repository structure.

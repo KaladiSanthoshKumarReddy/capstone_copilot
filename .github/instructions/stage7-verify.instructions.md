@@ -1,30 +1,51 @@
 ---
-description: Stage 7 operating instructions — Verification & Testing.
+description: Stage 7 operating instructions - Verification and Testing.
 applyTo: "tests/**"
 ---
 
-# Stage 7 — Verification & Testing
+# Stage 7 - Verification and Testing Instructions
 
-## Input
+## Goal
 
-`requirements.md` acceptance criteria, `impl-plan.md` test tasks, changed
-backend/frontend files.
+Generate and execute verification assets proving implementation meets acceptance
+criteria, then document objective outcomes.
 
-## Output
+## Inputs
 
-`tests/e2e/specs/*.spec.ts` (and/or `tests/features/*.feature`), plus
-`verification-report.md` at workspace root.
+- `requirements.md`
+- `impl-plan.md`
+- Stage 5 and Stage 6 outputs
 
-## Do / Don't
+## Outputs
 
-- ✅ Reuse page objects in `tests/e2e/pages/` and helpers in `tests/e2e/helpers/auth.ts`.
-- ✅ Run `cd tests && npx playwright test` and report REAL pass/fail counts.
-- ✅ Map every AC-xx to at least one test case in the report.
-- ❌ Don't edit `backend/src` or `frontend/src` to force tests green.
-- ❌ Don't report fabricated timings, counts, or pass rates.
+- Tests under `tests/e2e/specs/` and/or `tests/features/`
+- `verification-report.md`
 
-## verification-report.md Required Sections
+## Verification Workflow
 
-1. AC-to-test traceability table.
-2. Actual command output (pass/fail counts, duration).
-3. Defects found, with reproduction steps and severity.
+1. Build AC coverage map before writing tests.
+2. Reuse existing page objects/helpers where possible.
+3. Add tests for happy path, negative, and edge cases.
+4. Execute tests with real commands.
+5. Capture pass/fail counts and durations.
+6. Document defects and residual risk.
+
+## Required verification-report.md Sections
+
+1. Scope and environment context
+2. AC-to-test traceability table
+3. Commands run and real execution outputs
+4. Pass/fail summary and durations
+5. Defects with reproduction details
+6. Final gate recommendation
+
+## Quality Gate Requirements
+
+- All ACs mapped to test cases
+- Real, non-fabricated execution evidence
+- No unresolved critical defects
+
+## Failure Conditions
+
+Fail gate when AC coverage is incomplete, results are unverifiable, or critical
+issues remain unresolved.

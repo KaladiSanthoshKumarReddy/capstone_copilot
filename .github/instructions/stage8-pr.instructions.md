@@ -1,23 +1,54 @@
 ---
-description: Stage 8 operating instructions — PR & Report Generation.
+description: Stage 8 operating instructions - PR and Report Generation.
 applyTo: "CHANGELOG.md,sdlc-report.html"
 ---
 
-# Stage 8 — PR & Report Generation
+# Stage 8 - PR and Report Generation Instructions
 
-## Input
+## Goal
 
-All artifacts from Stages 1–7.
+Finalize release artifacts and create a pull request that accurately reflects
+scope, quality, and verification evidence.
 
-## Output
+## Inputs
 
-`CHANGELOG.md` entry, `sdlc-report.html`, and an opened pull request.
+- All stage artifacts from 1 to 7
+- Current branch and change history
 
-## Do / Don't
+## Outputs
 
-- ✅ Use `.github/templates/sdlc-report-template.html` as the base for the report.
-- ✅ Populate every `{{PLACEHOLDER}}` with real, collected values.
-- ✅ Open the PR against `GIT_REPO_URL` / `GIT_BRANCH` (from `.env`) using the
-  GitHub Pull Request extension's authenticated tool — don't ask the user for
-  `GITHUB_TOKEN` for this; that variable is only for standalone CLI/script use.
-- ❌ Don't fabricate commit SHAs, test counts, or a PR URL if creation failed.
+- Updated `CHANGELOG.md`
+- Updated `sdlc-report.html`
+- Pull request with full summary and evidence
+
+## Required CHANGELOG Content
+
+- Feature summary
+- Key backend/frontend changes
+- Verification highlights
+- Known limitations or deferred work
+
+## Required SDLC Report Content
+
+1. Stage status timeline
+2. Gate decisions with evidence
+3. Implementation and review summary
+4. Verification metrics and defect summary
+5. Risk/mitigation and follow-up actions
+
+## PR Quality Requirements
+
+- Clear title and scope description
+- Links to artifacts and test evidence
+- Risk/rollback notes when needed
+- No placeholder/fabricated values
+
+## Quality Gate Requirements
+
+- Changelog/report complete and accurate
+- PR creation evidence present
+- Stage outputs are internally consistent
+
+## Failure Conditions
+
+Fail gate if artifacts are incomplete, contradictory, or unverifiable.

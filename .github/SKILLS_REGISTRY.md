@@ -2,44 +2,68 @@
 description: Capstone Item Manager SDLC Skills Registry and Quick Reference
 ---
 
-# Skills Registry — Capstone Item Manager SDLC Pipeline
+# Skills Registry - Capstone Item Manager AI SDLC
 
-## Quick Reference
+## Overview
 
-- **`sdlc-orchestrator`** — Single entry point for entire pipeline management.
-  Triggers: `@sdlc`, `@sdlc resume`, `@sdlc status`, `@sdlc from=stage-N`.
+This registry defines all skills used by the Item Manager AI SDLC pipeline. The
+pipeline is intentionally stage-gated and human-approved. Every skill is mapped
+to a specific stage artifact, gate criteria, and rework path.
 
-## 8 Stage Skills
+The orchestrator is the only entry point for normal operation. Direct stage skill
+invocations are supported for controlled rework or targeted execution.
 
-| Skill | Input | Output | Gate |
-|-------|-------|--------|------|
-| sdlc-stage1-requirements | user-story.md / Jira / Confluence | requirements.md | ≥10 FR, ≥15 AC |
-| sdlc-stage2-architecture | requirements.md | architecture.md | ≥80% traceability |
-| sdlc-stage3-design-review | architecture.md | design-review.md | Explicit APPROVE/REJECT |
-| sdlc-stage4-impl-plan | design-review.md (APPROVED) | impl-plan.md | ≥15 ordered tasks |
-| sdlc-stage5-implementation | impl-plan.md | backend/src/**, frontend/src/** | No compile errors, ≥80% tasks |
-| sdlc-stage6-review | Stage 5 diff | Findings + safe fixes | ≤2 unresolved critical |
-| sdlc-stage7-verify | Stage 5 diff + requirements.md | tests/e2e/specs/*, verification-report.md | 100% AC coverage, real results |
-| sdlc-stage8-pr | All artifacts | CHANGELOG.md, sdlc-report.html, PR | Real metrics, PR opened |
+## Entry Skill
 
-## Stage Ordering
+- `sdlc-orchestrator`
+  - Primary command surface: `@sdlc`, `@sdlc status`, `@sdlc resume`,
+    `@sdlc from=stage-N`
+  - Responsibility: determine current gate state, verify prerequisites, invoke
+    stage skill, stop for explicit approval at each gate
 
-Sequential, each stage blocks on the previous gate. Stage 3 REJECT loops to Stage 2.
+## Stage Skills Matrix
 
-## State Management
+| Stage | Skill | Primary Input | Primary Output | Gate Decision | Rework Path |
+|---|---|---|---|---|---|
+| 1 | sdlc-stage1-requirements | user-story.md/Jira/Confluence | requirements.md | PASS when FR and AC quality bars are met | Stage 1 rerun |
+| 2 | sdlc-stage2-architecture | requirements.md | architecture.md | PASS when traceability and design completeness are met | Stage 2 rerun |
+| 3 | sdlc-stage3-design-review | architecture.md + requirements.md | design-review.md | APPROVED/REJECTED | REJECTED loops to Stage 2 |
+| 4 | sdlc-stage4-impl-plan | design-review.md APPROVED | impl-plan.md | PASS when plan is complete, ordered, and test-included | Stage 4 rerun |
+| 5 | sdlc-stage5-implementation | impl-plan.md + architecture.md | code in backend/src + frontend/src | PASS when implementation evidence and quality checks pass | Stage 5 rerun |
+| 6 | sdlc-stage6-review | Stage 5 diff | findings in chat + safe fixes | PASS when critical issues resolved or explicitly tracked | Stage 6 rerun |
+| 7 | sdlc-stage7-verify | requirements + implementation | tests + verification-report.md | PASS when AC coverage and real execution evidence exist | Stage 7 rerun |
+| 8 | sdlc-stage8-pr | all stage artifacts | CHANGELOG.md + sdlc-report.html + PR | PASS when report and PR evidence are complete | Stage 8 rerun |
 
-- `/memories/session/sdlc-gate-state.md` — master state
-- `/memories/session/stageN-state.md` — per-stage state
-- `/memories/session/orchestrator-log.md` — execution log
+## Standard Skill Contract
 
-## Cross-References
+Every stage skill must:
 
-- `.github/instructions/stageN-*.instructions.md`
-- `.github/instructions/sdlc-global.instructions.md`
-- `.github/instructions/gate-validation-checklist.md`
-- `.github/agents/sdlc-stageN-*.agent.md`
+1. Confirm required upstream artifacts exist and are readable.
+2. Refuse execution if upstream gate is not passed.
+3. Produce only stage-scoped outputs.
+4. Record objective evidence used for PASS/FAIL decisions.
+5. Never fabricate results, counters, links, timings, coverage, or test output.
+6. Stop at gate and wait for explicit human approval before downstream execution.
 
-## URL / Token Wiring
+## Evidence Model
 
-See [docs/AI_SDLC_OVERVIEW.md](../docs/AI_SDLC_OVERVIEW.md) for exactly which
-`.env` variables each stage/skill uses and how `.vscode/mcp.json` resolves them.
+Each stage must provide evidence in one or more of these forms:
+
+- Artifact content evidence (explicit sections/tables/checklists)
+- Validation evidence (lint/test/diagnostics outputs where applicable)
+- Traceability evidence (FR -> design -> task -> test mapping)
+- Risk/security evidence (OWASP controls and unresolved risk register)
+
+## Human-In-The-Loop Rules
+
+No skill or agent is allowed to auto-advance stages. Explicit user confirmation
+is mandatory between stages. Accepted approvals include: `approve`, `continue`,
+`proceed`. Rework controls include: `reject`, `rework`, `redo`.
+
+## Global References
+
+- Global policy: `.github/instructions/sdlc-global.instructions.md`
+- Gate rubric: `.github/instructions/gate-validation-checklist.md`
+- Skill implementation details: `.github/skills/<stage>/SKILL.md`
+- Agent execution contracts: `.github/agents/*.agent.md`
+- SDLC mapping and environment wiring: `docs/AI_SDLC_OVERVIEW.md`

@@ -6,42 +6,81 @@ description: >
   Triggers: "sdlc", "sdlc orchestrate", "sdlc resume", "sdlc status", "pipeline check".
 ---
 
-# Orchestrator Skill: Capstone Item Manager SDLC Pipeline
+# Orchestrator Skill: Capstone Item Manager AI SDLC
 
 ## Purpose
-Single entry point (`@sdlc`) to navigate the 8-stage SDLC pipeline for the Capstone
-Item Manager. Checks gate status, recommends next action, invokes stage skills,
-and coordinates state transitions.
 
-## Supported Invocations
+The orchestrator controls the complete 8-stage AI SDLC pipeline. It provides a
+single command surface and enforces stage sequence, gate criteria, and explicit
+human approvals.
 
-| Command | Action |
-|---------|--------|
-| `@sdlc` | Check current pipeline status and recommend next stage |
-| `@sdlc resume` | Continue from last completed stage |
-| `@sdlc from=stage-1` | Start Stage 1 (requirements) |
-| `@sdlc from=stage-5` | Jump to Stage 5 (implementation) if prerequisites met |
-| `@sdlc status` | Display detailed gate status table |
+This skill does not replace stage agents. It coordinates and validates the
+execution context, then delegates to the correct stage skill/agent.
 
-## Prerequisites
-- `/memories/session/sdlc-gate-state.md` exists (created on first run)
-- A requirement source is available: `user-story.md`, Jira issue, or Confluence page
+## Supported Commands
 
-## Core Steps
+| Command | Behavior |
+|---|---|
+| `@sdlc` | Inspect current state and recommend the immediate next stage |
+| `@sdlc status` | Show gate table with stage-by-stage PASS/FAIL/BLOCKED state |
+| `@sdlc resume` | Continue from the most recent stage that is eligible to run |
+| `@sdlc from=stage-1..8` | Attempt controlled jump with prerequisite validation |
 
-1. Initialize `/memories/session/sdlc-gate-state.md` if missing (current_stage: 1).
-2. Read current state to determine current_stage and last_gate_verdict.
-3. Inspect workspace artifacts: requirements.md → architecture.md → design-review.md
-   → impl-plan.md → backend/frontend diffs → review findings → tests/verification-report.md
-   → CHANGELOG.md, to determine actual completion (source of truth over memory).
-4. Determine next action and invoke the matching stage agent
-   (`@sdlc-stageN-*`) via `runSubagent`.
-5. On completion, print the gate message and STOP — await explicit user approval
-   (`approve`/`continue`/`proceed`) before invoking the next stage.
+## Inputs
 
-## Cross-References
+- Session state memory files under `/memories/session/`
+- Stage artifacts in workspace root and source/test folders
+- Global/stage instruction files under `.github/instructions/`
 
-- Global rules: `.github/instructions/sdlc-global.instructions.md`
-- Gate checklist: `.github/instructions/gate-validation-checklist.md`
-- Full agent: `.github/agents/sdlc.agent.md`
+## Outputs
 
+- Orchestrator status summary in chat
+- Deterministic recommendation: run stage, approve gate, or rework stage
+- Delegation to one stage skill at a time
+
+## Orchestration Workflow
+
+1. Load gate state memory or initialize it if missing.
+2. Verify artifact reality in workspace (workspace is source of truth over memory).
+3. Compute stage progression status table.
+4. Validate requested action against prerequisites.
+5. Invoke one stage skill.
+6. Capture stage result and gate recommendation.
+7. Stop and wait for explicit approval before any transition.
+
+## Stage Transition Rules
+
+- Sequential progression is default and preferred.
+- Stage jumps are only valid when prerequisites and artifacts are satisfied.
+- Stage 3 REJECTED verdict always routes rework to Stage 2.
+- No auto-advance after stage completion.
+
+## Gate Decision Model
+
+A gate is considered PASS only when:
+
+1. Required artifact exists.
+2. Required sections and minimum quality bars are met.
+3. Evidence is explicit and not inferred.
+4. No unresolved critical blockers exist for the stage.
+
+## Failure Handling
+
+When a stage gate fails, orchestrator must:
+
+1. Mark gate as FAIL.
+2. List concrete blocking reasons.
+3. Provide file-targeted remediation steps.
+4. Re-run only impacted stage after fixes.
+
+## Safety and Integrity
+
+- Never fabricate test metrics, report values, or URLs.
+- Never hardcode secrets or environment-specific values.
+- Never bypass human approval prompts.
+
+## Cross References
+
+- `.github/instructions/sdlc-global.instructions.md`
+- `.github/instructions/gate-validation-checklist.md`
+- `.github/agents/sdlc.agent.md`

@@ -1,29 +1,57 @@
 ---
-description: Stage 5 operating instructions — Implementation.
+description: Stage 5 operating instructions - Implementation.
 applyTo: "backend/src/**,frontend/src/**"
 ---
 
-# Stage 5 — Implementation
+# Stage 5 - Implementation Instructions
 
-## Input
+## Goal
 
-`impl-plan.md` (required), `architecture.md`.
+Execute Stage 4 plan tasks to deliver production-safe behavior updates in backend
+and frontend source code with objective completion evidence.
 
-## Output
+## Inputs
 
-Code changes under `backend/src/` and `frontend/src/`, plus colocated unit tests.
+- `impl-plan.md`
+- `architecture.md`
+- `requirements.md`
 
-## Do / Don't
+## Allowed Scope
 
-- ✅ Follow existing router pattern (`backend/src/routes/items.ts`) for new endpoints.
-- ✅ Follow existing Zustand store pattern (`frontend/src/store/authStore.ts`).
-- ✅ Validate all inputs server-side; never trust `req.body` without checks.
-- ✅ Use parameterized SQL only.
-- ✅ Read config from `process.env.*`, never hardcode ports/URLs/secrets.
-- ❌ Don't touch `tests/e2e/**` or `tests/features/**` (Stage 7 scope).
-- ❌ Don't leave `console.log` debugging statements in committed code.
+- `backend/src/**`
+- `frontend/src/**`
+- Colocated source tests related to changed behavior
 
-## Verification Before Gate
+## Required Implementation Discipline
 
-Run `cd frontend && npm run test` (Vitest) and report actual pass/fail counts.
-Run `get_errors` on all changed files.
+1. Implement task-by-task using plan order and dependencies.
+2. Keep each change bounded and reviewable.
+3. Preserve existing route/store/component patterns.
+4. Keep API contracts consistent or explicitly versioned/documented.
+5. Add/adjust tests where behavior changes.
+
+## Security and Data Controls
+
+- Use auth middleware on protected routes.
+- Validate all external input on server side.
+- Use parameterized SQL queries only.
+- Avoid leaking internal stack traces to clients.
+- Do not hardcode secrets or environment URLs.
+
+## Completion Evidence Requirements
+
+- Task completion status by task ID
+- Changed file list with intent summary
+- Diagnostics results for changed files
+- Relevant test execution results
+
+## Quality Gate Requirements
+
+- Critical diagnostics: zero in changed files
+- Security controls applied where required
+- Behavior is traceable to FR/AC and architecture
+
+## Failure Conditions
+
+Fail gate if critical defects, missing controls, or major drift from architecture
+are detected.

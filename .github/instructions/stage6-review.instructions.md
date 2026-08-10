@@ -1,31 +1,57 @@
 ---
-description: Stage 6 operating instructions — Code Review.
+description: Stage 6 operating instructions - Code Review.
 applyTo: "backend/src/**,frontend/src/**"
 ---
 
-# Stage 6 — Code Review
+# Stage 6 - Code Review Instructions
 
-## Input
+## Goal
 
-Files changed in Stage 5 (per `impl-plan.md` task file targets).
+Assess Stage 5 implementation for correctness, security, maintainability, and
+contract integrity. Apply safe fixes where possible.
+
+## Inputs
+
+- Stage 5 changed files
+- `requirements.md`, `architecture.md`, `impl-plan.md`
 
 ## Output
 
-Review findings in chat (severity-ranked) + safe fixes applied directly to files.
+- Severity-ranked findings in chat
+- Safe fixes in source files when low risk
 
-## Checklist
+## Review Checklist
 
-1. Type safety — no unchecked `any`, correct TS types end-to-end.
-2. AuthN/AuthZ — protected routes use `backend/src/middleware/auth.ts`.
-3. Input validation on every new/changed route.
-4. SQL — parameterized only, no string concatenation.
-5. No secrets/tokens/hardcoded URLs in source.
-6. Consistent error response shape `{ success: false, error }`.
-7. No dead code / unused imports / leftover `console.log`.
-8. Run `get_errors` after fixes to confirm zero new diagnostics.
+1. Requirements/architecture alignment
+2. Type safety and runtime failure risks
+3. Auth and authorization enforcement
+4. Input validation completeness
+5. SQL safety and data consistency
+6. Error handling and API response consistency
+7. Maintainability and readability
+8. Test adequacy for changed behavior
 
-## Do / Don't
+## Findings Format
 
-- ✅ Fix Critical/Major issues directly if the fix is safe and scoped.
-- ✅ Flag anything that changes business logic instead of silently fixing it.
-- ❌ Don't reduce test coverage while "cleaning up".
+For each finding, include:
+
+- Severity
+- Location
+- Risk
+- Suggested remediation
+- Fix status
+
+## Safe Fix Policy
+
+- Apply deterministic, low-risk fixes directly.
+- For risky behavior changes, report and request explicit approval.
+
+## Quality Gate Requirements
+
+- No unresolved critical findings
+- Major findings resolved or explicitly accepted
+- Post-fix diagnostics do not introduce new issues
+
+## Failure Conditions
+
+Fail gate if critical issues remain or evidence is incomplete.

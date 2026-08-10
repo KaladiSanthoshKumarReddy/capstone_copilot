@@ -1,35 +1,49 @@
 ---
-description: Stage 1 operating instructions — Requirements Analysis.
+description: Stage 1 operating instructions - Requirements Analysis.
 applyTo: "requirements.md"
 ---
 
-# Stage 1 — Requirements Analysis
+# Stage 1 - Requirements Analysis Instructions
 
-## Input
+## Goal
 
-`user-story.md` (preferred, local) OR a Jira issue under `JIRA_PROJECT_KEY` at
-`JIRA_BASE_URL`, OR a Confluence page under `CONFLUENCE_SPACE_KEY` at
-`CONFLUENCE_BASE_URL` (all read from `.env` — never hardcode).
+Produce high-quality, testable requirements from approved business input.
+
+## Inputs
+
+- `user-story.md` (preferred)
+- Jira/Confluence source if configured and accessible
 
 ## Output
 
-`requirements.md` at workspace root.
+- `requirements.md`
 
-## Required Sections
+## Required Structure
 
-1. **Source** — cite exactly where the requirement came from.
-2. **Scope** — one paragraph, plus explicit out-of-scope bullet list.
-3. **Functional Requirements** — FR-01 .. FR-N, each a single testable statement.
-4. **Acceptance Criteria** — AC-01 .. AC-M, Given/When/Then style, each measurable.
-5. **Non-Functional Requirements** — auth, validation, performance, accessibility.
-6. **Assumptions & Constraints**.
+1. Source and context
+2. Business objective
+3. In-scope items
+4. Out-of-scope items
+5. Functional requirements (`FR-xx`)
+6. Acceptance criteria (`AC-xx`) in Given/When/Then
+7. Non-functional requirements
+8. Assumptions, dependencies, constraints
+9. Open questions
+10. Initial traceability table
 
-## Minimums (see gate-validation-checklist.md)
+## Authoring Rules
 
-≥10 FRs, ≥15 ACs.
+- Use clear, atomic, testable statements.
+- Avoid implementation-level details unless required constraints.
+- Keep requirement IDs stable and unique.
+- Ensure each AC has measurable expected behavior.
 
-## Do / Don't
+## Quality Gate Requirements
 
-- ✅ Reuse existing domain language (Item, Dashboard, status/search/pagination).
-- ✅ Note if the request extends `frontend/src/types/index.ts` types.
-- ❌ Don't invent Jira/Confluence content if a fetch fails — ask the user.
+- Minimum FR count: 10
+- Minimum AC count: 15
+- No unresolved contradictions in scope definitions
+
+## Failure Conditions
+
+Fail gate if requirements are incomplete, ambiguous, or non-testable.

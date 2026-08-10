@@ -1,11 +1,11 @@
 {
-  "description": "SDLC gate enforcement hooks for Capstone Item Manager — inject gate context on session start and log stage transitions.",
+  "description": "SDLC gate enforcement hooks for Capstone Item Manager. Injects persistent stage-governance context, blocks unsafe auto-advancement intent, and reinforces evidence-first gate behavior.",
   "hooks": {
     "SessionStart": [
       {
         "type": "command",
         "command": "echo '{\"systemMessage\": \"Capstone SDLC Pipeline active. Gate approval is REQUIRED before each stage transition. Never skip gates.\"}'",
-        "windows": "powershell -NoProfile -Command \"$artifacts = @('requirements.md','architecture.md','design-review.md','impl-plan.md','verification-report.md','CHANGELOG.md') | Where-Object { Test-Path $_ }; $msg = if ($artifacts) { $artifacts -join ', ' } else { 'none' }; Write-Output ('{\\\"systemMessage\\\": \\\"Capstone SDLC Pipeline active. Existing artifacts: ' + $msg + '. Gate approval REQUIRED before each stage transition. Never skip gates.\\\"}')\"",
+        "windows": "powershell -NoProfile -Command \"$artifacts = @('requirements.md','architecture.md','design-review.md','impl-plan.md','verification-report.md','CHANGELOG.md','sdlc-report.html') | Where-Object { Test-Path $_ }; $msg = if ($artifacts) { $artifacts -join ', ' } else { 'none' }; $state = if (Test-Path '/memories/session/sdlc-gate-state.md') { 'present' } else { 'missing' }; Write-Output ('{\\\"systemMessage\\\": \\\"Capstone SDLC pipeline active. Existing artifacts: ' + $msg + '. Session gate-state file: ' + $state + '. Approval is mandatory before stage transitions. Do not skip stages, do not auto-advance, and do not fabricate evidence.\\\"}')\"",
         "timeout": 10
       }
     ],
@@ -13,23 +13,23 @@
       {
         "type": "command",
         "command": "echo '{\"continue\": true}'",
-        "windows": "powershell -NoProfile -Command \"Write-Output '{\\\"continue\\\": true}'\"",
+        "windows": "powershell -NoProfile -Command \"$tool = $env:COPILOT_TOOL_NAME; $msg = $env:COPILOT_TOOL_INPUT; if (-not $tool) { Write-Output '{\\\"continue\\\": true}'; exit 0 }; $lower = ($msg + '').ToLowerInvariant(); if ($lower -match 'auto-advance|skip gate|bypass gate|force pass') { Write-Output '{\\\"continue\\\": true, \\\"systemMessage\\\": \\\"Reminder: SDLC gate bypass intent detected in tool context. Continue only with evidence-backed, stage-scoped actions and explicit approval boundaries.\\\"}'; } else { Write-Output '{\\\"continue\\\": true}'; }\"",
         "timeout": 5
       }
     ],
     "SubagentStart": [
       {
         "type": "command",
-        "command": "echo '{\"systemMessage\": \"Subagent starting for Capstone SDLC. Remember: output a gate message after stage completes and STOP — do not auto-proceed.\"}'",
-        "windows": "powershell -NoProfile -Command \"Write-Output '{\\\"systemMessage\\\": \\\"Subagent starting for Capstone SDLC. Remember: output a gate message after stage completes and STOP — do not auto-proceed.\\\"}'\"",
+        "command": "echo '{\"systemMessage\": \"Subagent starting for Capstone SDLC. Follow stage scope, gather objective evidence, output gate decision, and STOP.\"}'",
+        "windows": "powershell -NoProfile -Command \"Write-Output '{\\\"systemMessage\\\": \\\"Subagent starting for Capstone SDLC. Follow stage scope, gather objective evidence, output gate decision, and STOP for human approval.\\\"}'\"",
         "timeout": 5
       }
     ],
     "SubagentStop": [
       {
         "type": "command",
-        "command": "echo '{\"systemMessage\": \"Subagent complete. Present the gate message to the user and await explicit approval before proceeding to next stage.\"}'",
-        "windows": "powershell -NoProfile -Command \"Write-Output '{\\\"systemMessage\\\": \\\"Subagent complete. Present the gate message to the user and await explicit approval before proceeding to next stage.\\\"}'\"",
+        "command": "echo '{\"systemMessage\": \"Subagent complete. Publish PASS/FAIL with evidence and wait for explicit approval before any stage transition.\"}'",
+        "windows": "powershell -NoProfile -Command \"Write-Output '{\\\"systemMessage\\\": \\\"Subagent complete. Publish PASS/FAIL with evidence and wait for explicit approval before any stage transition.\\\"}'\"",
         "timeout": 5
       }
     ]

@@ -1,33 +1,51 @@
 ---
-description: Stage 2 operating instructions — Architecture Design.
+description: Stage 2 operating instructions - Architecture Design.
 applyTo: "architecture.md"
 ---
 
-# Stage 2 — Architecture Design
+# Stage 2 - Architecture Design Instructions
 
-## Input
+## Goal
 
-`requirements.md` (required), `design-review.md` (if reworking after REJECT).
+Create a realistic architecture that can be implemented with minimal rework in
+current Item Manager stack and conventions.
+
+## Inputs
+
+- `requirements.md`
+- Existing codebase structure
+- Prior review feedback (if in rework cycle)
 
 ## Output
 
-`architecture.md` at workspace root.
+- `architecture.md`
 
-## Required Sections
+## Required Structure
 
-1. **Impacted Components** — backend routes/middleware, frontend
-   components/pages/store, DB schema.
-2. **Data Model** — new/changed tables/columns in the SQLite schema
-   (`backend/src/db/init.ts`), with migration notes.
-3. **API Contract** — new/changed endpoints, request/response shapes matching the
-   existing `{ success, data }` / `{ success, error }` convention.
-4. **Data Flow** — frontend component → `frontend/src/api/*` → backend route → DB.
-5. **Tech Stack Notes** — confirm no new frameworks unless justified.
-6. **ADRs** — architecture decision records for non-trivial tradeoffs.
+1. Current-state baseline
+2. Requirement coverage matrix
+3. Backend impact and endpoint contracts
+4. Frontend impact and data/state flow
+5. Data model/schema changes
+6. Validation and error-handling strategy
+7. Security and authorization model
+8. ADRs with alternatives and trade-offs
+9. Risk and rollout considerations
 
-## Do / Don't
+## Design Rules
 
-- ✅ Extend existing modules; don't introduce parallel patterns.
-- ✅ Keep auth on new endpoints via `backend/src/middleware/auth.ts`.
-- ❌ Don't change the DB engine, framework, or auth mechanism without a strong,
-  documented reason.
+- Prefer extending existing patterns over introducing parallel frameworks.
+- Keep contract shapes consistent with existing API conventions.
+- Document all behavior-affecting assumptions.
+- Explicitly call out data migration risks.
+
+## Quality Gate Requirements
+
+- Minimum 80 percent FR traceability
+- No undefined critical contract behavior
+- Security controls are explicit for all touched surfaces
+
+## Failure Conditions
+
+Fail gate when traceability is weak, contracts are incomplete, or risk handling
+is inadequate.

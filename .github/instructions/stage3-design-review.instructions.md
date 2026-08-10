@@ -1,28 +1,46 @@
 ---
-description: Stage 3 operating instructions — Design Review.
+description: Stage 3 operating instructions - Design Review.
 applyTo: "design-review.md"
 ---
 
-# Stage 3 — Design Review
+# Stage 3 - Design Review Instructions
 
-## Input
+## Goal
 
-`architecture.md` (required), `requirements.md` (for traceability check).
+Determine whether architecture is safe and complete enough to proceed to
+implementation.
+
+## Inputs
+
+- `architecture.md`
+- `requirements.md`
 
 ## Output
 
-`design-review.md` at workspace root, with an explicit verdict.
+- `design-review.md` with explicit verdict line
 
-## Required Sections
+## Mandatory Verdict Format
 
-1. **Verdict** — first line must read `Verdict: APPROVED` or `Verdict: REJECTED`.
-2. **Traceability Check** — table mapping each FR to an architecture element.
-3. **Security Review** — auth, input validation, SQL parameterization, secrets handling.
-4. **Risk Assessment** — likelihood/impact for top risks.
-5. **Rework Actions** (only if REJECTED) — file-level, actionable items.
+First line must be exactly one of:
 
-## Do / Don't
+- `Verdict: APPROVED`
+- `Verdict: REJECTED`
 
-- ✅ Reject if any FR has no architecture coverage.
-- ✅ Reject if a new endpoint lacks auth/validation coverage in the design.
-- ❌ Don't approve with unresolved Critical security concerns.
+## Required Review Content
+
+1. FR coverage audit
+2. Security and validation review
+3. Data integrity and consistency checks
+4. Performance and operational risks
+5. Testability and observability check
+6. Rework task list if rejected
+
+## Review Rules
+
+- Reject when critical requirement coverage is missing.
+- Reject when critical security gaps remain unresolved.
+- Approve only with evidence-backed confidence.
+
+## Failure Conditions
+
+Any ambiguous verdict or missing evidence is an automatic gate FAIL.

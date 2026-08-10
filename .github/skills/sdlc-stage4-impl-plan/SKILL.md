@@ -1,16 +1,66 @@
 ---
 description: >
-  Stage 4 skill — Implementation Planning for Capstone Item Manager. Breaks an
-  APPROVED architecture.md into ≥15 ordered tasks in impl-plan.md.
+  Stage 4 skill - Implementation Planning for Capstone Item Manager. Breaks an
+  APPROVED architecture.md into >=15 ordered tasks in impl-plan.md.
   Trigger: "@sdlc-stage4-impl-plan".
 ---
 
-# Skill: Stage 4 — Implementation Planning
+# Skill: Stage 4 - Implementation Planning
 
-**Input**: `design-review.md` with APPROVED verdict.
-**Output**: `impl-plan.md` (≥15 tasks with file targets and dependencies).
-**Gate**: PASS if ≥15 tasks + all tasks have success criteria + proper ordering.
-**Blocks**: Stage 5 cannot start until `impl-plan.md` exists and passes gate.
+## Objective
 
-Full behavior defined in `.github/agents/sdlc-stage4-impl-plan.agent.md` and
-`.github/instructions/stage4-impl-plan.instructions.md`.
+Create an execution plan that is complete, ordered, traceable, and directly
+implementable by engineering agents.
+
+## Input
+
+- `design-review.md` with `Verdict: APPROVED`
+- `architecture.md`
+- `requirements.md`
+
+## Output
+
+- `impl-plan.md`
+
+## Required Plan Structure
+
+A task table with these columns:
+
+- `ID`
+- `Description`
+- `File Target(s)`
+- `Depends On`
+- `Success Criterion`
+- `Requirement Links (FR/AC)`
+
+## Minimum Quality Bar
+
+- At least 15 tasks
+- Tasks are dependency-ordered
+- Coverage includes backend, frontend, tests, and docs/reporting needs
+- Every major architecture element maps to one or more tasks
+
+## Execution Steps
+
+1. Decompose architecture into implementation units.
+2. Separate safe increments from high-risk changes.
+3. Define objective completion criteria per task.
+4. Add explicit test tasks (unit/integration/E2E as applicable).
+5. Validate ordering and dependency correctness.
+6. Verify traceability back to FR/AC.
+
+## Gate PASS Conditions
+
+- Plan is complete, sequenced, and test-inclusive.
+- No orphan architecture decisions without tasks.
+- Success criteria are objectively verifiable.
+
+## Gate FAIL Conditions
+
+- Missing test tasks.
+- Ambiguous task ownership/targets.
+- Dependency ordering conflicts.
+
+## Downstream Contract
+
+Stage 5 must execute against this plan and report progress by task ID.

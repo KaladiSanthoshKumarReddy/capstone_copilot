@@ -1,18 +1,58 @@
 ---
 description: >
-  Stage 7 skill — Verification & Testing for Capstone Item Manager. Writes and
+  Stage 7 skill - Verification and Testing for Capstone Item Manager. Writes and
   executes Playwright/Cucumber tests, produces verification-report.md.
   Trigger: "@sdlc-stage7-verify".
 ---
 
-# Skill: Stage 7 — Verification & Testing
+# Skill: Stage 7 - Verification and Testing
 
-**Input**: Changed backend/frontend files + `requirements.md` acceptance criteria.
-**Output**: `tests/e2e/specs/*.spec.ts` (and/or `tests/features/*.feature`) +
-`verification-report.md`.
-**Gate**: PASS if every AC has a covering test + tests were actually executed +
-results are real (never fabricated).
-**Blocks**: Stage 8 cannot start until tests pass and report is written.
+## Objective
 
-Full behavior defined in `.github/agents/sdlc-stage7-verify.agent.md` and
-`.github/instructions/stage7-verify.instructions.md`.
+Provide objective verification evidence that implementation satisfies acceptance
+criteria and that critical user flows are reliable.
+
+## Input
+
+- `requirements.md`
+- `impl-plan.md`
+- Stage 5/6 code changes
+
+## Output
+
+- `tests/e2e/specs/*.spec.ts`
+- `tests/features/*.feature` where behavior scenarios are needed
+- `verification-report.md` with real execution evidence
+
+## Verification Strategy
+
+1. Build AC-to-test mapping before test authoring.
+2. Reuse existing page objects and helpers.
+3. Cover happy paths, negative paths, and edge cases.
+4. Execute tests with real commands and capture outputs.
+5. Document defects with reproducible steps.
+
+## Required Report Sections
+
+1. Scope and tested build context
+2. Traceability matrix (`AC` -> `Test Case(s)`)
+3. Commands executed and environment context
+4. Real pass/fail counts and duration snapshots
+5. Defects and residual risks
+6. Gate recommendation
+
+## Gate PASS Conditions
+
+- 100 percent AC coverage with at least one test per AC
+- Commands executed with real outcomes captured
+- No unresolved critical defects preventing release
+
+## Gate FAIL Conditions
+
+- Missing AC traceability
+- Non-executed or fabricated results
+- Critical defects without remediation plan
+
+## Integrity Rule
+
+Never fabricate outcomes, durations, screenshots, URLs, or defect statistics.
