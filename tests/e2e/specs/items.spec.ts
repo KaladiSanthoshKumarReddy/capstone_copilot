@@ -42,17 +42,24 @@ test.describe('Item Management', () => {
   test('should delete an item', async ({ page }) => {
     const titleInput = page.getByTestId('item-title-input')
     const addBtn     = page.getByTestId('add-item-button')
+    const title = `Item to delete ${Date.now()}`
 
-    await titleInput.fill('Item to delete')
+    await titleInput.fill(title)
     await addBtn.click()
-    await page.waitForSelector('[data-testid^="item-card-"]')
 
-    // Click first delete button
-    const deleteBtn = page.locator('[data-testid^="item-delete-"]').first()
+    const titleEl = page.locator('[data-testid^="item-title-"]').filter({ hasText: title }).first()
+    await expect(titleEl).toBeVisible()
+
+    const titleTestId = await titleEl.getAttribute('data-testid')
+    const id = titleTestId?.replace('item-title-', '')
+    expect(id).toBeTruthy()
+
+    const itemCard = page.locator(`[data-testid="item-card-${id}"]`)
+    const deleteBtn = page.locator(`[data-testid="item-delete-${id}"]`)
     page.once('dialog', d => d.accept())
     await deleteBtn.click()
 
-    await expect(page.getByText('Item to delete')).not.toBeVisible()
+    await expect(itemCard).toHaveCount(0)
   })
 
   test('should toggle item status to completed', async ({ page }) => {
