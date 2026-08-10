@@ -1,5 +1,5 @@
 ---
-description: Stage 4 operating instructions - Implementation Planning.
+description: Stage 4 implementation planning instruction contract. Defines deterministic task sequencing, dependency mapping, and completion-ready task granularity for impl-plan.md.
 applyTo: "impl-plan.md"
 ---
 

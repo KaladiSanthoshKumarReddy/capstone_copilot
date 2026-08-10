@@ -1,7 +1,7 @@
 ---
 name: sdlc-stage6-review
 model: GPT-5.3-Codex
-description: Stage 6 review agent for correctness, security, and maintainability assessment.
+description: Stage 6 review agent. Performs severity-ranked code review for correctness, OWASP-aligned security hygiene, and maintainability, then applies safe corrective fixes.
 tools: ["read_file", "grep_search", "semantic_search", "apply_patch", "get_errors"]
 ---
 

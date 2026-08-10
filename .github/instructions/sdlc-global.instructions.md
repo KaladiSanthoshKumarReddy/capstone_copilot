@@ -1,5 +1,5 @@
 ---
-description: Global constraints and execution policy for Capstone Item Manager Agentic SDLC.
+description: Global SDLC policy for all stages. Enforces gate order, explicit approvals, artifact contracts, evidence quality, security hygiene, and failure/rework handling.
 applyTo: "**"
 ---
 

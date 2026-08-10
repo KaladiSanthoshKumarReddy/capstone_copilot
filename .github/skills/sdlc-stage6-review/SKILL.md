@@ -1,7 +1,8 @@
 ---
 description: >
-  Stage 6 skill - Code Review for Capstone Item Manager. Reviews Stage 5 changes
-  for quality, security (OWASP), and consistency; applies safe fixes.
+  Stage 6 code review skill for Capstone Item Manager.
+  Reviews Stage 5 changes for correctness, security, and maintainability,
+  reports severity-ranked findings, and applies low-risk remediation fixes.
   Trigger: "@sdlc-stage6-review".
 ---
 

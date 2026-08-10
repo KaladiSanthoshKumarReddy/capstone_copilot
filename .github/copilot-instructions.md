@@ -1,5 +1,5 @@
 ---
-description: "Capstone Item Manager SDLC Skills — Stage-scoped skills for the 8-stage agentic SDLC pipeline with orchestrator"
+description: Operational Copilot guidance for Capstone Item Manager. Documents stack context, SDLC entry commands, stage skill mapping, human-approval gates, and implementation conventions for consistent agent behavior.
 ---
 
 # Copilot Instructions — Capstone Item Manager

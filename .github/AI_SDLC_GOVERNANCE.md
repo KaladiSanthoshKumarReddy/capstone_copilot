@@ -1,5 +1,5 @@
 ---
-description: Central governance index for Capstone Item Manager AI SDLC assets.
+description: Governance index for the Capstone Item Manager AI SDLC. Defines where agents, skills, instructions, prompts, hooks, gate rules, and stage artifacts live, and how they connect for auditable delivery.
 ---
 
 # Capstone Item Manager AI SDLC Governance Index

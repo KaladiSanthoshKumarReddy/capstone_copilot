@@ -1,7 +1,7 @@
 ---
 name: sdlc-stage7-verify
 model: GPT-5.3-Codex
-description: Stage 7 verification agent for test authoring, execution, and evidence reporting.
+description: Stage 7 verification agent. Creates and runs deterministic Playwright/Cucumber validation coverage and records objective pass/fail evidence in verification-report.md.
 tools: ["read_file", "apply_patch", "runTests", "run_in_terminal", "get_errors"]
 ---
 

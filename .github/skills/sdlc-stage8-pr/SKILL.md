@@ -1,7 +1,8 @@
 ---
 description: >
-  Stage 8 skill - PR and Report Generation for Capstone Item Manager. Creates
-  CHANGELOG.md and sdlc-report.html, and opens a pull request.
+  Stage 8 PR and reporting skill for Capstone Item Manager.
+  Produces CHANGELOG.md and sdlc-report.html with traceable release evidence,
+  then opens a pull request summarizing scope, validation, and residual risks.
   Trigger: "@sdlc-stage8-pr".
 ---
 

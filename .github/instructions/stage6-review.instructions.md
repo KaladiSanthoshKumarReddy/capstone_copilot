@@ -1,5 +1,5 @@
 ---
-description: Stage 6 operating instructions - Code Review.
+description: Stage 6 review instruction contract. Defines correctness/security review expectations, severity-based findings, and safe remediation scope for implementation artifacts.
 applyTo: "backend/src/**,frontend/src/**"
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: sdlc-stage5-implementation
 model: GPT-5.3-Codex
-description: Stage 5 implementation agent for executing impl-plan tasks in production code.
+description: Stage 5 implementation agent. Executes impl-plan tasks with minimal safe diffs in backend/src and frontend/src while preserving auth, security, and API contract consistency.
 tools: ["read_file", "apply_patch", "get_errors", "runTests", "run_in_terminal"]
 ---
 

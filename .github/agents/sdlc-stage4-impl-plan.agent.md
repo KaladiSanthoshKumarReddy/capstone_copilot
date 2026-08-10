@@ -1,7 +1,7 @@
 ---
 name: sdlc-stage4-impl-plan
 model: GPT-5.3-Codex
-description: Stage 4 planning agent for deterministic implementation sequencing.
+description: Stage 4 implementation planning agent. Decomposes approved architecture into ordered, dependency-aware impl-plan.md tasks with clear completion outcomes.
 tools: ["read_file", "memory", "semantic_search"]
 ---
 

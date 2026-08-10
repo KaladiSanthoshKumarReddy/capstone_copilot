@@ -1,9 +1,12 @@
 ---
 description: >
-  Orchestrator Skill for Capstone Item Manager SDLC. Single entry point to check
-  pipeline status, recommend next stage, and coordinate stage skills.
-  Supports: @sdlc (check status), @sdlc resume (continue), @sdlc from=stage-N (jump).
-  Triggers: "sdlc", "sdlc orchestrate", "sdlc resume", "sdlc status", "pipeline check".
+  Orchestrator skill for Capstone Item Manager AI SDLC.
+  Scope is control-plane only: invoke one eligible stage skill, track gate status
+  from workspace artifacts, and action stage outputs (PASS/FAIL/BLOCKED,
+  remediation routing, approval wait).
+  Commands: @sdlc, @sdlc status, @sdlc resume, @sdlc from=stage-N.
+  Trigger phrases: "sdlc", "sdlc orchestrate", "sdlc resume", "sdlc status",
+  "pipeline check".
 ---
 
 # Orchestrator Skill: Capstone Item Manager AI SDLC

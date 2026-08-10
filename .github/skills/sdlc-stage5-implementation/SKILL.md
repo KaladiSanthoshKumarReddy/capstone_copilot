@@ -1,7 +1,9 @@
 ---
 description: >
-  Stage 5 skill - Implementation for Capstone Item Manager. Executes impl-plan.md
-  and writes production code under backend/src and frontend/src.
+  Stage 5 implementation skill for Capstone Item Manager.
+  Executes impl-plan.md tasks and applies production-safe code changes in
+  backend/src and frontend/src while preserving auth, contract integrity, and
+  existing project conventions.
   Trigger: "@sdlc-stage5-implementation".
 ---
 

@@ -1,5 +1,5 @@
 ---
-description: Stage 5 operating instructions - Implementation.
+description: Stage 5 implementation instruction contract. Governs safe code changes in backend/src and frontend/src, contract alignment, auth enforcement, and evidence-backed completion.
 applyTo: "backend/src/**,frontend/src/**"
 ---
 

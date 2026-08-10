@@ -1,5 +1,5 @@
 ---
-description: Capstone Item Manager SDLC Skills Registry and Quick Reference
+description: Registry of all Capstone Item Manager SDLC skills, including stage ownership, trigger usage, expected artifacts, and quick-reference execution guidance.
 ---
 
 # Skills Registry - Capstone Item Manager AI SDLC

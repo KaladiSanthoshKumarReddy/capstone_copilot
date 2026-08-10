@@ -1,5 +1,5 @@
 ---
-description: Stage 8 operating instructions - PR and Report Generation.
+description: Stage 8 release instruction contract. Defines changelog/report quality, traceable release summary, and pull-request readiness evidence for final handoff.
 applyTo: "CHANGELOG.md,sdlc-report.html"
 ---
 

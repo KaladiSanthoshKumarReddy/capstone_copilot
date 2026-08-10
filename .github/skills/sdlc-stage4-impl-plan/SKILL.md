@@ -1,7 +1,8 @@
 ---
 description: >
-  Stage 4 skill - Implementation Planning for Capstone Item Manager. Breaks an
-  APPROVED architecture.md into >=15 ordered tasks in impl-plan.md.
+  Stage 4 implementation planning skill for Capstone Item Manager.
+  Converts approved architecture.md into ordered impl-plan.md tasks with
+  dependencies, sequencing rationale, and verifiable completion criteria.
   Trigger: "@sdlc-stage4-impl-plan".
 ---
 

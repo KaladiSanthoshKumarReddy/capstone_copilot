@@ -1,7 +1,7 @@
 ---
 name: sdlc-stage8-pr
 model: GPT-5.3-Codex
-description: Stage 8 release agent for changelog/report completion and pull request creation.
+description: Stage 8 release agent. Finalizes changelog/report artifacts and opens a pull request with scope summary, verification evidence, and release-readiness context.
 tools: ["read_file", "apply_patch", "get_changed_files", "github-pull-request_create_pull_request"]
 ---
 

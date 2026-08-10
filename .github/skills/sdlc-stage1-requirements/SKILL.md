@@ -1,7 +1,9 @@
 ---
 description: >
-  Stage 1 skill - Requirements Analysis for Capstone Item Manager. Reads
-  user-story.md, a Jira issue, or a Confluence page and writes requirements.md.
+  Stage 1 requirements skill for Capstone Item Manager.
+  Consumes user-story.md or approved Jira/Confluence sources and produces
+  requirements.md with FR/AC, scope boundaries, NFRs, dependencies, and
+  traceability starter mappings.
   Trigger: "@sdlc-stage1-requirements".
 ---
 

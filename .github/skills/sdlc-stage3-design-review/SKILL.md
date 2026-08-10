@@ -1,7 +1,8 @@
 ---
 description: >
-  Stage 3 skill - Design Review for Capstone Item Manager. Reviews architecture.md
-  and writes design-review.md with an explicit APPROVED/REJECTED verdict.
+  Stage 3 design review skill for Capstone Item Manager.
+  Reviews architecture.md independently and produces design-review.md with an
+  explicit APPROVED or REJECTED verdict, objective findings, and rework targets.
   Trigger: "@sdlc-stage3-design-review".
 ---
 

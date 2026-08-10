@@ -1,5 +1,5 @@
 ---
-description: Stage 1 operating instructions - Requirements Analysis.
+description: Stage 1 requirements instruction contract. Defines quality bars for requirements.md, FR/AC completeness, traceability seed expectations, and gate pass/fail evidence.
 applyTo: "requirements.md"
 ---
 

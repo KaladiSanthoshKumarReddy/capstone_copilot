@@ -1,7 +1,7 @@
 ---
 name: sdlc-stage2-architecture
 model: GPT-5.3-Codex
-description: Stage 2 agent for producing implementation-ready architecture.
+description: Stage 2 architecture agent. Translates requirements.md into implementation-ready architecture.md covering components, API/data contracts, constraints, and design decisions.
 tools: ["read_file", "memory", "grep_search", "semantic_search"]
 ---
 

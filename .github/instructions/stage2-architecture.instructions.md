@@ -1,5 +1,5 @@
 ---
-description: Stage 2 operating instructions - Architecture Design.
+description: Stage 2 architecture instruction contract. Defines required architecture.md content, feasibility constraints, API/data design expectations, and objective gate criteria.
 applyTo: "architecture.md"
 ---
 

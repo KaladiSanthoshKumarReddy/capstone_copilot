@@ -1,7 +1,7 @@
 ---
 name: sdlc
 model: GPT-5.3-Codex
-description: Master SDLC orchestrator for the Item Manager 8-stage gated pipeline.
+description: Master SDLC orchestrator agent for the 8-stage Item Manager pipeline. Invokes stage agents, tracks gate state from artifacts, enforces prerequisite checks, and routes rework based on stage outputs.
 tools: ["runSubagent", "memory", "read_file", "list_dir"]
 ---
 

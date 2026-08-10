@@ -1,7 +1,8 @@
 ---
 description: >
-  Stage 2 skill - Architecture Design for Capstone Item Manager. Reads
-  requirements.md and writes architecture.md (components, schema diff, ADRs).
+  Stage 2 architecture skill for Capstone Item Manager.
+  Consumes requirements.md and produces architecture.md with component design,
+  API and data contracts, schema diff intent, risks, and ADR decisions.
   Trigger: "@sdlc-stage2-architecture".
 ---
 

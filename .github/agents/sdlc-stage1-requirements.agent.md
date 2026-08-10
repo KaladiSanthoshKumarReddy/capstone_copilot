@@ -1,7 +1,7 @@
 ---
 name: sdlc-stage1-requirements
 model: GPT-5.3-Codex
-description: Stage 1 agent for extracting and formalizing complete requirements.
+description: Stage 1 requirements agent. Converts approved source material into complete, testable requirements.md with FR/AC structure, scope boundaries, assumptions, and traceability starters.
 tools: ["read_file", "fetch_webpage", "memory", "vscode_askQuestions"]
 ---
 

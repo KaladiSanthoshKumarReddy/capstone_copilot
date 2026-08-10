@@ -1,5 +1,5 @@
 ---
-description: Stage 7 operating instructions - Verification and Testing.
+description: Stage 7 verification instruction contract. Defines required automated tests, execution evidence, and verification-report.md completeness for acceptance validation.
 applyTo: "tests/**"
 ---
 

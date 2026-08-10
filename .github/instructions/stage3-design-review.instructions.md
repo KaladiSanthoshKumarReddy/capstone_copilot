@@ -1,5 +1,5 @@
 ---
-description: Stage 3 operating instructions - Design Review.
+description: Stage 3 design review instruction contract. Defines independent review method, approval/rejection criteria, and mandatory reasoning for design-review.md verdicts.
 applyTo: "design-review.md"
 ---
 

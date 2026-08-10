@@ -1,7 +1,7 @@
 ---
 name: sdlc-stage3-design-review
 model: GPT-5.3-Codex
-description: Stage 3 review agent for architecture approval or rejection.
+description: Stage 3 design review agent. Evaluates architecture.md against quality and risk criteria, then issues an explicit APPROVED or REJECTED verdict in design-review.md.
 tools: ["read_file", "memory", "grep_search"]
 ---
 

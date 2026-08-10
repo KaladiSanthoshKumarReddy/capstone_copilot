@@ -1,7 +1,8 @@
 ---
 description: >
-  Stage 7 skill - Verification and Testing for Capstone Item Manager. Writes and
-  executes Playwright/Cucumber tests, produces verification-report.md.
+  Stage 7 verification skill for Capstone Item Manager.
+  Authors and executes Playwright/Cucumber verification assets, captures test
+  evidence, and produces verification-report.md aligned to acceptance criteria.
   Trigger: "@sdlc-stage7-verify".
 ---
 
