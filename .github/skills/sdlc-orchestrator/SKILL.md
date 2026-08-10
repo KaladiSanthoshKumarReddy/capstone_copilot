@@ -10,12 +10,12 @@ description: >
 
 ## Purpose
 
-The orchestrator controls the complete 8-stage AI SDLC pipeline. It provides a
-single command surface and enforces stage sequence, gate criteria, and explicit
-human approvals.
+The orchestrator is the control plane for the 8-stage AI SDLC pipeline.
+It provides one command surface to invoke stages, track gate state, and act on
+stage outputs.
 
-This skill does not replace stage agents. It coordinates and validates the
-execution context, then delegates to the correct stage skill/agent.
+The orchestrator does not perform stage implementation work. Stage agents own
+artifact creation and code/test changes.
 
 ## Supported Commands
 
@@ -38,14 +38,30 @@ execution context, then delegates to the correct stage skill/agent.
 - Deterministic recommendation: run stage, approve gate, or rework stage
 - Delegation to one stage skill at a time
 
+## Responsibility Boundary
+
+Orchestrator responsibilities are strictly limited to:
+
+1. Invoke exactly one eligible stage skill.
+2. Track stage/gate status using artifact-backed evidence.
+3. Take action on stage output: mark PASS/FAIL/BLOCKED, request remediation, or
+  wait for explicit user approval.
+
+The orchestrator must not:
+
+- Draft stage artifacts on behalf of a stage.
+- Implement production code or tests for a stage.
+- Auto-advance to the next stage without explicit user approval.
+
 ## Orchestration Workflow
 
 1. Load gate state memory or initialize it if missing.
-2. Verify artifact reality in workspace (workspace is source of truth over memory).
+2. Verify artifact reality in workspace (workspace is source of truth over
+  memory).
 3. Compute stage progression status table.
 4. Validate requested action against prerequisites.
 5. Invoke one stage skill.
-6. Capture stage result and gate recommendation.
+6. Capture stage output and map it to a gate action.
 7. Stop and wait for explicit approval before any transition.
 
 ## Stage Transition Rules
@@ -64,20 +80,13 @@ A gate is considered PASS only when:
 3. Evidence is explicit and not inferred.
 4. No unresolved critical blockers exist for the stage.
 
-## Failure Handling
+## Failure Actioning
 
-When a stage gate fails, orchestrator must:
+When a stage gate fails, the orchestrator:
 
-1. Mark gate as FAIL.
-2. List concrete blocking reasons.
-3. Provide file-targeted remediation steps.
-4. Re-run only impacted stage after fixes.
-
-## Safety and Integrity
-
-- Never fabricate test metrics, report values, or URLs.
-- Never hardcode secrets or environment-specific values.
-- Never bypass human approval prompts.
+1. Marks gate as FAIL.
+2. Records concrete blockers from stage output.
+3. Routes to the impacted stage for rework.
 
 ## Cross References
 
