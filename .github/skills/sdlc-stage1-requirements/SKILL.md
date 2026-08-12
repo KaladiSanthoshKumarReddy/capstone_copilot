@@ -20,6 +20,7 @@ requirements for the Item Manager feature scope.
 - Local `user-story.md` (preferred)
 - Jira issue via `.env` values (`JIRA_BASE_URL`, `JIRA_PROJECT_KEY`)
 - Confluence page via `.env` values (`CONFLUENCE_BASE_URL`, `CONFLUENCE_SPACE_KEY`)
+- Word document or other approved business source when provided by the user
 
 ## Required Output
 
@@ -51,9 +52,15 @@ requirements for the Item Manager feature scope.
 2. Normalize terminology to existing Item Manager domain language.
 3. Extract candidate requirements and remove ambiguity.
 4. Separate must-have from nice-to-have content.
-5. Draft `requirements.md` with required sections.
-6. Perform self-consistency and testability review.
-7. Produce gate recommendation and await approval.
+5. Ask clarifying questions when the source is incomplete or contradictory.
+6. Draft `requirements.md` with required sections.
+7. Perform self-consistency and testability review.
+8. Produce gate recommendation and await approval.
+
+## Delivery Expectations
+
+- Capture the final requirements in `requirements.md`
+- Commit the file after it is finalized
 
 ## Gate PASS Conditions
 

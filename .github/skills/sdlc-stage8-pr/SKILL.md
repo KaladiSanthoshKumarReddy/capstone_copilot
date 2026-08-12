@@ -41,6 +41,14 @@ with transparent, verifiable evidence.
 - Test evidence and known limitations documented
 - No placeholder or fabricated values
 
+## Required PR Description Sections
+
+- Summary: 2-3 sentence overview of what was built and why
+- Changes Made: bulleted list of all files added or modified and the reason
+- Test Evidence: pasted test output or link to CI results
+- Known Limitations: anything marked Not Found or out of scope
+- Reviewer Checklist: tick-list for reviewer approval
+
 ## Gate PASS Conditions
 
 - Changelog and SDLC report are complete and accurate
