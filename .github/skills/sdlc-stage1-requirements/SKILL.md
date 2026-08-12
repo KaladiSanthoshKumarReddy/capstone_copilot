@@ -1,4 +1,5 @@
 ---
+name: sdlc-stage1-requirements
 description: >
   Stage 1 requirements skill for Capstone Item Manager.
   Consumes user-story.md or approved Jira/Confluence sources and produces

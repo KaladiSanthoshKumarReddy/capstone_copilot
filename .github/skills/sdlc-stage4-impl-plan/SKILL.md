@@ -1,4 +1,5 @@
 ---
+name: sdlc-stage4-impl-plan
 description: >
   Stage 4 implementation planning skill for Capstone Item Manager.
   Converts approved architecture.md into ordered impl-plan.md tasks with

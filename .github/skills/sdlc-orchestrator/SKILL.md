@@ -1,4 +1,5 @@
 ---
+name: sdlc-orchestrator
 description: >
   Orchestrator skill for Capstone Item Manager AI SDLC.
   Scope is control-plane only: invoke one eligible stage skill, track gate status

@@ -1,4 +1,5 @@
 ---
+name: sdlc-stage3-design-review
 description: >
   Stage 3 design review skill for Capstone Item Manager.
   Reviews architecture.md independently and produces design-review.md with an

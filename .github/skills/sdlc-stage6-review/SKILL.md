@@ -1,4 +1,5 @@
 ---
+name: sdlc-stage6-review
 description: >
   Stage 6 code review skill for Capstone Item Manager.
   Reviews Stage 5 changes for correctness, security, and maintainability,

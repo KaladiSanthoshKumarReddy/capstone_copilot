@@ -1,4 +1,5 @@
 ---
+name: sdlc-stage2-architecture
 description: >
   Stage 2 architecture skill for Capstone Item Manager.
   Consumes requirements.md and produces architecture.md with component design,

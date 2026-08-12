@@ -1,4 +1,5 @@
 ---
+name: sdlc-stage8-pr
 description: >
   Stage 8 PR and reporting skill for Capstone Item Manager.
   Produces CHANGELOG.md and sdlc-report.html with traceable release evidence,

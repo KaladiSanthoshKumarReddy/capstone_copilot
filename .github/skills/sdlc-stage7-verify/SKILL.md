@@ -1,4 +1,5 @@
 ---
+name: sdlc-stage7-verify
 description: >
   Stage 7 verification skill for Capstone Item Manager.
   Authors and executes Playwright/Cucumber verification assets, captures test

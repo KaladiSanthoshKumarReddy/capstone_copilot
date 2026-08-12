@@ -1,4 +1,5 @@
 ---
+name: sdlc-stage5-implementation
 description: >
   Stage 5 implementation skill for Capstone Item Manager.
   Executes impl-plan.md tasks and applies production-safe code changes in
